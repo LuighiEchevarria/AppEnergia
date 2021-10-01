@@ -32,8 +32,8 @@ public class bienvenida extends javax.swing.JFrame {
         for(Perfil p : perfiles){
             
         }
-        nameLabel.setText(perfiles.get(1).getNombres());
-        perfil = perfiles.get(1);
+        nameLabel.setText(perfiles.get(0).getNombres());
+        perfil = perfiles.get(0);
     }
 
     /**
