@@ -83,7 +83,7 @@ public class ControlDAO implements ControlInterface{
     public boolean control_eliminar(int codigo_control) {
         
           try {
-            String sql = "delete from perfil where codigo_control = "+ codigo_control;
+            String sql = "delete from control where codigo_control = "+ codigo_control;
             con= cn.conectar();
             ps=con.prepareStatement(sql);
             ps.executeUpdate();
@@ -97,7 +97,7 @@ public class ControlDAO implements ControlInterface{
     public Control control_listar_uno(int codigo_control) {
         
          try {
-            String sql = "select * from perfil where codigo_control ="+ codigo_control;
+            String sql = "select * from control where codigo_control ="+ codigo_control;
             con=cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
@@ -124,7 +124,7 @@ public class ControlDAO implements ControlInterface{
     public ArrayList<Control> perfil_control_all() {
          ArrayList<Control> lista = new ArrayList<>();
         try {
-            String sql = "select * from perfil";
+            String sql = "select * from control";
             con= cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
@@ -135,7 +135,7 @@ public class ControlDAO implements ControlInterface{
                 oControl.setCantidad(rs.getInt("cantidad"));
                 oControl.setTiempo_uso(rs.getInt("tiempo_uso"));
                 oControl.setDia_uso(rs.getInt("dia_uso"));
-                oControl.setKv(rs.getInt("costo_kv"));
+                oControl.setKv(rs.getInt("kv"));
                 oControl.setPeriodo(rs.getString("periodo"));
                 oControl.setCodigo_perfil(rs.getInt("codigo_perfil"));
                 lista.add(oControl);

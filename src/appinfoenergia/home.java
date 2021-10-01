@@ -6,6 +6,11 @@
 package appinfoenergia;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.Control;
+import model.Perfil;
+import modelDAO.ControlDAO;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -19,11 +24,39 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class home extends javax.swing.JFrame {
 
+    public static Perfil perfil;
+    DefaultTableModel model;
     /**
      * Creates new form home
      */
     public home() {
         initComponents();
+        model = new DefaultTableModel();
+        model.addColumn("Artefacto");
+        model.addColumn("Cantidad");
+        model.addColumn("Tiempo de uso");
+        model.addColumn("Kv/h ");
+        model.addColumn("Días del mes");
+        model.addColumn("Periodo");
+        jTable1.setModel(model);
+        cargarArtefatos();
+        perfil = bienvenida.perfil;
+    }
+    
+    private void cargarArtefatos(){
+        
+        ControlDAO cdao = new ControlDAO();
+        ArrayList<Control> controles = cdao.perfil_control_all();
+        controles.forEach((c) -> {
+            String [] ctrl = new String[6];
+            ctrl[0] = c.getNombre_artefacto();
+            ctrl[1] = c.getCantidad()+"";
+            ctrl[2] = c.getTiempo_uso()+"";
+            ctrl[3] = c.getKv()+"";
+            ctrl[4] = c.getDia_uso()+"";
+            ctrl[5] = c.getPeriodo()+"";
+            model.addRow(ctrl);
+        });
     }
 
     /**

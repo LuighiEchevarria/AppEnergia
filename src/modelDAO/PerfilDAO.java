@@ -58,7 +58,7 @@ public class PerfilDAO implements PerfilInterface{
  
         try {
              
-            String sql  = " update perfil set nombres = ' " +  perfil.getNombres()  + "' , apellidos=' " + perfil.getApellidos() + "', correo_electronico='" +  perfil.getCorreo_electronico() + "', costo_kv= '" + String.valueOf(perfil.getCosto_kv()) + "' where codigo_perfil ="  + perfil.getCodigo_perfil();
+            String sql  = " update perfil set nombres = '" +  perfil.getNombres()  + "' , apellidos='" + perfil.getApellidos() + "', correo_electronico='" +  perfil.getCorreo_electronico() + "', costo_kv= '" + String.valueOf(perfil.getCosto_kv()) + "' where codigo_perfil ="  + perfil.getCodigo_perfil();
             
             con = cn.conectar();
             ps=con.prepareStatement(sql);

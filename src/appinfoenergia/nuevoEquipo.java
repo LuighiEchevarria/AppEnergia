@@ -5,6 +5,12 @@
  */
 package appinfoenergia;
 
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
+import model.Control;
+import modelDAO.ControlDAO;
+
 /**
  *
  * @author Jesus Enrique
@@ -16,6 +22,8 @@ public class nuevoEquipo extends javax.swing.JFrame {
      */
     public nuevoEquipo() {
         initComponents();
+        System.out.println(equipoGroup.getSelection());
+        
     }
 
     /**
@@ -27,19 +35,20 @@ public class nuevoEquipo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        equipoGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        nombreArtefactoField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        cantidadField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        diaUsoField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        tiempoUsoField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        kvField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btGrabar = new javax.swing.JButton();
         btCerrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
@@ -79,8 +88,13 @@ public class nuevoEquipo extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setText("Limpiar");
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("Grabar");
+        btGrabar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btGrabar.setText("Grabar");
+        btGrabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGrabarActionPerformed(evt);
+            }
+        });
 
         btCerrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btCerrar.setText("Cerrar");
@@ -98,7 +112,7 @@ public class nuevoEquipo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton1)
                 .addGap(31, 31, 31)
-                .addComponent(jButton2)
+                .addComponent(btGrabar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btCerrar)
                 .addGap(19, 19, 19))
@@ -112,17 +126,17 @@ public class nuevoEquipo extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField2)))
+                            .addComponent(tiempoUsoField)
+                            .addComponent(cantidadField)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField5)))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(diaUsoField)
+                            .addComponent(kvField)))
+                    .addComponent(nombreArtefactoField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
@@ -131,53 +145,64 @@ public class nuevoEquipo extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nombreArtefactoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cantidadField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tiempoUsoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(diaUsoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kvField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(btGrabar)
                     .addComponent(btCerrar))
                 .addGap(39, 39, 39))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Kilovatios por Electrodomesticos ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
+        equipoGroup.add(jRadioButton1);
         jRadioButton1.setText("Televisión");
 
+        equipoGroup.add(jRadioButton2);
         jRadioButton2.setText("Plancha");
 
+        equipoGroup.add(jRadioButton3);
         jRadioButton3.setText("Refrigeradora");
 
+        equipoGroup.add(jRadioButton4);
         jRadioButton4.setText("Microondas");
 
+        equipoGroup.add(jRadioButton5);
         jRadioButton5.setText("Secar ropa");
 
+        equipoGroup.add(jRadioButton6);
         jRadioButton6.setText("Terma");
 
+        equipoGroup.add(jRadioButton7);
         jRadioButton7.setText("Aspiradora");
 
+        equipoGroup.add(jRadioButton8);
         jRadioButton8.setText("Computadora");
 
+        equipoGroup.add(jRadioButton9);
         jRadioButton9.setText("Hervidor");
 
+        equipoGroup.add(jRadioButton10);
         jRadioButton10.setText("Licuadora");
 
+        equipoGroup.add(jRadioButton11);
         jRadioButton11.setText("Personalizado");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -203,7 +228,7 @@ public class nuevoEquipo extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jRadioButton11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButton1)
@@ -269,6 +294,21 @@ public class nuevoEquipo extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btCerrarActionPerformed
 
+    private void btGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGrabarActionPerformed
+        // TODO add your handling code here:
+        Control control = new Control();
+        control.setCantidad(Integer.parseInt(cantidadField.getText()));
+        control.setCodigo_perfil(home.perfil.getCodigo_perfil());
+        control.setDia_uso(Integer.parseInt(diaUsoField.getText()));
+        control.setTiempo_uso(Integer.parseInt(tiempoUsoField.getText()));
+        control.setKv(Double.parseDouble(kvField.getText()));
+        control.setNombre_artefacto(nombreArtefactoField.getText());
+
+        String nombre = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+        control.setPeriodo("julio");
+        new ControlDAO().control_agregar(control);
+    }//GEN-LAST:event_btGrabarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -303,11 +343,18 @@ public class nuevoEquipo extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void getArtefacto(java.awt.event.ActionEvent evt) {
+        System.out.println(evt);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCerrar;
+    private javax.swing.JButton btGrabar;
+    private javax.swing.JTextField cantidadField;
+    private javax.swing.JTextField diaUsoField;
+    private javax.swing.ButtonGroup equipoGroup;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -327,10 +374,8 @@ public class nuevoEquipo extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton7;
     private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JRadioButton jRadioButton9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField kvField;
+    private javax.swing.JTextField nombreArtefactoField;
+    private javax.swing.JTextField tiempoUsoField;
     // End of variables declaration//GEN-END:variables
 }

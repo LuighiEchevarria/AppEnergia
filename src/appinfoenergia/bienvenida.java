@@ -5,6 +5,10 @@
  */
 package appinfoenergia;
 
+import java.util.ArrayList;
+import modelDAO.PerfilDAO;
+import model.Perfil;
+
 /**
  *
  * @author Jesus Enrique
@@ -14,8 +18,22 @@ public class bienvenida extends javax.swing.JFrame {
     /**
      * Creates new form bienvenida
      */
+    
+    public static Perfil perfil;
+    
     public bienvenida() {
         initComponents();
+        cargarPerfiles();
+    }
+    
+    private void cargarPerfiles(){
+        PerfilDAO pdao = new PerfilDAO();
+        ArrayList<Perfil>perfiles = pdao.perfil_listar_all();
+        for(Perfil p : perfiles){
+            
+        }
+        nameLabel.setText(perfiles.get(1).getNombres());
+        perfil = perfiles.get(1);
     }
 
     /**
@@ -30,6 +48,7 @@ public class bienvenida extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btPerfil = new javax.swing.JButton();
+        nameLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btAgregarPerfil = new javax.swing.JButton();
 
@@ -47,21 +66,27 @@ public class bienvenida extends javax.swing.JFrame {
             }
         });
 
+        nameLabel.setText("jLabel2");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(btPerfil)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btPerfil)
+                    .addComponent(nameLabel))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(nameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(btPerfil)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -186,5 +211,6 @@ public class bienvenida extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel nameLabel;
     // End of variables declaration//GEN-END:variables
 }
