@@ -109,7 +109,7 @@ public class ControlDAO implements ControlInterface{
                 oControl.setTiempo_uso(rs.getInt("tiempo_uso"));
                 oControl.setDia_uso(rs.getInt("dia_uso"));
                 oControl.setKv(rs.getInt("costo_kv"));
-                oControl.setPeriodo(rs.getString("periodo"));
+                oControl.setPeriodo(rs.getDate("periodo"));
                 oControl.setCodigo_perfil(rs.getInt("codigo_perfil"));
             }            
             
@@ -121,10 +121,10 @@ public class ControlDAO implements ControlInterface{
     }
 
     @Override
-    public ArrayList<Control> perfil_control_all() {
+    public ArrayList<Control> perfil_control_all(int codigo_perfil) {
          ArrayList<Control> lista = new ArrayList<>();
         try {
-            String sql = "select * from control";
+            String sql = "select * from control where codigo_perfil ="+ codigo_perfil;
             con= cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
@@ -136,7 +136,7 @@ public class ControlDAO implements ControlInterface{
                 oControl.setTiempo_uso(rs.getInt("tiempo_uso"));
                 oControl.setDia_uso(rs.getInt("dia_uso"));
                 oControl.setKv(rs.getInt("kv"));
-                oControl.setPeriodo(rs.getString("periodo"));
+                oControl.setPeriodo(rs.getDate("periodo"));
                 oControl.setCodigo_perfil(rs.getInt("codigo_perfil"));
                 lista.add(oControl);
             }            

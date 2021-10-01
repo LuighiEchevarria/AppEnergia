@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
 
+package model;
+import java.util.Date;
 /**
  *
  * @author Jesus Enrique
@@ -18,13 +19,13 @@ public class Control {
     private int tiempo_uso;
     private int dia_uso;
     private double kv;
-    private String periodo;
+    private Date periodo;
     private int codigo_perfil;
 
     public Control() {
     }
 
-    public Control(int codigo_control, String nombre_artefacto, int cantidad, int tiempo_uso, int dia_uso, double kv, String periodo, int codigo_perfil) {
+    public Control(int codigo_control, String nombre_artefacto, int cantidad, int tiempo_uso, int dia_uso, double kv, Date periodo, int codigo_perfil) {
         this.codigo_control = codigo_control;
         this.nombre_artefacto = nombre_artefacto;
         this.cantidad = cantidad;
@@ -84,12 +85,12 @@ public class Control {
         this.kv = kv;
     }
 
-    public String getPeriodo() {
-        return periodo;
+    public void setPeriodo(Date periodo) {
+        this.periodo = periodo;
     }
 
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
+    public Date getPeriodo() {
+        return periodo;
     }
 
     public int getCodigo_perfil() {

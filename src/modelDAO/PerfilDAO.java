@@ -34,7 +34,7 @@ public class PerfilDAO implements PerfilInterface{
         try {
             
             
-           String sql =" insert into perfil(nombres, apellidos, correo_electronico,costo_kv) "
+           String sql =" insert into perfil(nombres, apellidos, correo_electronico,kv) "
                            + " value(' " + perfil.getNombres() + " ',' " 
                            + perfil.getApellidos()+  "',' " 
                            + perfil.getCorreo_electronico() + " ', " 
@@ -58,7 +58,7 @@ public class PerfilDAO implements PerfilInterface{
  
         try {
              
-            String sql  = " update perfil set nombres = '" +  perfil.getNombres()  + "' , apellidos='" + perfil.getApellidos() + "', correo_electronico='" +  perfil.getCorreo_electronico() + "', costo_kv= '" + String.valueOf(perfil.getCosto_kv()) + "' where codigo_perfil ="  + perfil.getCodigo_perfil();
+            String sql  = " update perfil set nombres = '" +  perfil.getNombres()  + "' , apellidos='" + perfil.getApellidos() + "', correo_electronico='" +  perfil.getCorreo_electronico() + "', kv= '" + String.valueOf(perfil.getCosto_kv()) + "' where codigo_perfil ="  + perfil.getCodigo_perfil();
             
             con = cn.conectar();
             ps=con.prepareStatement(sql);
@@ -101,7 +101,7 @@ public class PerfilDAO implements PerfilInterface{
                 oPerfil.setNombres(rs.getString("nombres"));
                 oPerfil.setApellidos(rs.getString("apellidos"));
                 oPerfil.setCorreo_electronico(rs.getString("correo_electronico"));
-                oPerfil.setCosto_kv(rs.getDouble("costo_kv"));
+                oPerfil.setCosto_kv(rs.getDouble("kv"));
             }            
             
         } catch (SQLException ex) {
@@ -127,7 +127,7 @@ public class PerfilDAO implements PerfilInterface{
                 oPerfil.setNombres(rs.getString("nombres"));
                 oPerfil.setApellidos(rs.getString("apellidos"));
                 oPerfil.setCorreo_electronico(rs.getString("correo_electronico"));
-                oPerfil.setCosto_kv(rs.getDouble("costo_kv"));
+                oPerfil.setCosto_kv(rs.getDouble("kv"));
                 lista.add(oPerfil);
             }            
             

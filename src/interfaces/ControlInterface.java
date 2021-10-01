@@ -17,7 +17,6 @@ public interface ControlInterface {
     public boolean control_editar(Control p);
     public boolean control_eliminar(int codigo_control);
     public Control control_listar_uno(int codigo_control);
-    public ArrayList<Control> perfil_control_all();
-    
+    public ArrayList<Control> perfil_control_all(int codigo_perfil);    
     
 }

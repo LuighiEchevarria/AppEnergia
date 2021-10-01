@@ -5,9 +5,8 @@
  */
 package appinfoenergia;
 
-import java.time.LocalDate;
-import java.time.format.TextStyle;
-import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import model.Control;
 import modelDAO.ControlDAO;
 
@@ -21,9 +20,7 @@ public class nuevoEquipo extends javax.swing.JFrame {
      * Creates new form nuevoEquipo
      */
     public nuevoEquipo() {
-        initComponents();
-        System.out.println(equipoGroup.getSelection());
-        
+        initComponents();        
     }
 
     /**
@@ -289,8 +286,10 @@ public class nuevoEquipo extends javax.swing.JFrame {
 
     private void btCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCerrarActionPerformed
         // TODO add your handling code here:
+        home Home = new home();
         
-        this.setVisible(false);
+        Home.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_btCerrarActionPerformed
 
@@ -298,15 +297,22 @@ public class nuevoEquipo extends javax.swing.JFrame {
         // TODO add your handling code here:
         Control control = new Control();
         control.setCantidad(Integer.parseInt(cantidadField.getText()));
-        control.setCodigo_perfil(home.perfil.getCodigo_perfil());
+        control.setCodigo_perfil(bienvenida.sesion.getUserSesion().getCodigo_perfil());
         control.setDia_uso(Integer.parseInt(diaUsoField.getText()));
         control.setTiempo_uso(Integer.parseInt(tiempoUsoField.getText()));
         control.setKv(Double.parseDouble(kvField.getText()));
         control.setNombre_artefacto(nombreArtefactoField.getText());
-
-        String nombre = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-        control.setPeriodo("julio");
+        Date currentDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.format(currentDate);
+        control.setPeriodo(new java.sql.Date(currentDate.getTime()));
         new ControlDAO().control_agregar(control);
+        
+        home Home = new home();
+        
+        Home.setVisible(true);
+        dispose();
+        
     }//GEN-LAST:event_btGrabarActionPerformed
 
     /**

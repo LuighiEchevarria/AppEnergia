@@ -173,7 +173,10 @@ public class nuevoPerfil extends javax.swing.JFrame {
 
     private void btCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCerrarActionPerformed
         // TODO add your handling code here:
-        setVisible(false);
+        bienvenida bvnd = new bienvenida();
+        bvnd.setVisible(true);
+
+        dispose();
     }//GEN-LAST:event_btCerrarActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -185,6 +188,11 @@ public class nuevoPerfil extends javax.swing.JFrame {
         perfil.setCosto_kv(Double.parseDouble(kvField.getText()));
         PerfilDAO p = new PerfilDAO();
         p.perfil_agregar(perfil);
+        
+        bienvenida bvnd = new bienvenida();
+        bvnd.setVisible(true);
+
+        dispose();
         
     }//GEN-LAST:event_btnSaveActionPerformed
 

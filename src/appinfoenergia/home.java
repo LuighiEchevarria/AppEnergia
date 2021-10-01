@@ -46,7 +46,7 @@ public class home extends javax.swing.JFrame {
     private void cargarArtefatos(){
         
         ControlDAO cdao = new ControlDAO();
-        ArrayList<Control> controles = cdao.perfil_control_all();
+        ArrayList<Control> controles = cdao.perfil_control_all(bienvenida.sesion.getUserSesion().getCodigo_perfil());
         controles.forEach((c) -> {
             String [] ctrl = new String[6];
             ctrl[0] = c.getNombre_artefacto();
@@ -73,7 +73,7 @@ public class home extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         brAgregarEquipo = new javax.swing.JButton();
-        btAgregarPerfil = new javax.swing.JButton();
+        btSalir = new javax.swing.JButton();
         btReporteKvHora = new javax.swing.JButton();
         btAcercaDe = new javax.swing.JButton();
         btReporteCosto = new javax.swing.JButton();
@@ -126,10 +126,10 @@ public class home extends javax.swing.JFrame {
             }
         });
 
-        btAgregarPerfil.setText("Agrega un perfil");
-        btAgregarPerfil.addActionListener(new java.awt.event.ActionListener() {
+        btSalir.setText("Cerrar sesión");
+        btSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAgregarPerfilActionPerformed(evt);
+                btSalirActionPerformed(evt);
             }
         });
 
@@ -176,26 +176,28 @@ public class home extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(29, 29, 29)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
-                                .addComponent(jLabel3)
-                                .addGap(49, 49, 49)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(brAgregarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btAgregarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btReporteKvHora, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btReporteCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btAcercaDe, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(50, 50, 50)
+                                        .addComponent(jLabel3)
+                                        .addGap(49, 49, 49)
+                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(brAgregarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(12, 12, 12)
+                                        .addComponent(btReporteCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btReporteKvHora, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btAcercaDe, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -203,8 +205,8 @@ public class home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(brAgregarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                    .addComponent(btAgregarPerfil)
+                    .addComponent(brAgregarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(btSalir)
                     .addComponent(btReporteKvHora)
                     .addComponent(btAcercaDe)
                     .addComponent(btReporteCosto))
@@ -299,16 +301,15 @@ public class home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btReporteCostoActionPerformed
 
-    private void btAgregarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAgregarPerfilActionPerformed
+    private void btSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalirActionPerformed
         // TODO add your handling code here:
+        bienvenida.sesion.cerrarSesion();
+        bienvenida bvnd = new bienvenida();
+        bvnd.setVisible(true);
         
-        nuevoPerfil nPerfil = new nuevoPerfil();
-        nPerfil.setVisible(true);
+        dispose();        
         
-
-        
-        
-    }//GEN-LAST:event_btAgregarPerfilActionPerformed
+    }//GEN-LAST:event_btSalirActionPerformed
 
     private void brAgregarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brAgregarEquipoActionPerformed
         // TODO add your handling code here:
@@ -316,6 +317,7 @@ public class home extends javax.swing.JFrame {
         nuevoEquipo nEquipo = new nuevoEquipo();
         nEquipo.setVisible(true);
         
+        dispose();
 
         
     }//GEN-LAST:event_brAgregarEquipoActionPerformed
@@ -368,9 +370,9 @@ public class home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brAgregarEquipo;
     private javax.swing.JButton btAcercaDe;
-    private javax.swing.JButton btAgregarPerfil;
     private javax.swing.JButton btReporteCosto;
     private javax.swing.JButton btReporteKvHora;
+    private javax.swing.JButton btSalir;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
