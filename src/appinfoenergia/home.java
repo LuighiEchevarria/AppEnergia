@@ -7,6 +7,8 @@ package appinfoenergia;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import model.Control;
 import model.Perfil;
@@ -26,17 +28,26 @@ public class home extends javax.swing.JFrame {
 
     public static Perfil perfil;
     DefaultTableModel model;
+    String[] meses = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "setiembre", "octubre", "noviembre", "diciembre"};
+    String[] años = {"2020", "2021", "2022"};
+    ControlDAO cdao;
+
     /**
      * Creates new form home
      */
     public home() {
+        cdao = new ControlDAO();
         this.setUndecorated(true);
         initComponents();
+
+        periodoCombo.setModel(new DefaultComboBoxModel<>(meses));
+        anioCombo.setModel(new DefaultComboBoxModel<>(años));
         cargarArtefatos();
         perfil = bienvenida.perfil;
+        lblBienvenido.setText("Control de" + bienvenida.sesion.getUserSesion().getNombres());
     }
-    
-    private void cargarArtefatos(){
+
+    private void cargarArtefatos() {
         model = new DefaultTableModel();
         model.addColumn("Artefacto");
         model.addColumn("Cantidad");
@@ -44,18 +55,16 @@ public class home extends javax.swing.JFrame {
         model.addColumn("Kv/h ");
         model.addColumn("Días del mes");
         model.addColumn("Periodo");
-        jTable1.setModel(model);
-        ControlDAO cdao = new ControlDAO();
-        lblBienvenido.setText("Control de" +bienvenida.sesion.getUserSesion().getNombres());
+        controlTable.setModel(model);
         ArrayList<Control> controles = cdao.perfil_control_all(bienvenida.sesion.getUserSesion().getCodigo_perfil());
         controles.forEach((c) -> {
-            String [] ctrl = new String[6];
+            String[] ctrl = new String[6];
             ctrl[0] = c.getNombre_artefacto();
-            ctrl[1] = c.getCantidad()+"";
-            ctrl[2] = c.getTiempo_uso()+"";
-            ctrl[3] = c.getKv()+"";
-            ctrl[4] = c.getDia_uso()+"";
-            ctrl[5] = c.getPeriodo()+"";
+            ctrl[1] = c.getCantidad() + "";
+            ctrl[2] = c.getTiempo_uso() + "";
+            ctrl[3] = c.getKv() + "";
+            ctrl[4] = c.getDia_uso() + "";
+            ctrl[5] = c.getPeriodo() + "";
             model.addRow(ctrl);
         });
     }
@@ -70,61 +79,50 @@ public class home extends javax.swing.JFrame {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        periodoCombo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jPanel1 = new javax.swing.JPanel();
+        anioCombo = new javax.swing.JComboBox<>();
+        agregarEquipoPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        reporteSolesPanel = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
+        acercaDePanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel15 = new javax.swing.JPanel();
+        reporteKvPanel = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jPanel16 = new javax.swing.JPanel();
+        cerrarSesionPanel = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         lblBienvenido = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
+        filtrarPanel = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        controlTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        totalLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         mainPanel.setBackground(new java.awt.Color(21, 67, 96));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Artefacto Eléctrico", "Cantidad", "Tiempo de Uso", "Kv-h", "Dias al Mes", "Consumo Kv-h", "Consumo Mensual S/"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(245, 246, 247));
         jLabel2.setText("Periodo:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Julio", "Agosto", "Setiembre", "Ocubre" }));
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(245, 246, 247));
         jLabel3.setText("Año:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2021", "2020" }));
-
-        jPanel1.setBackground(new java.awt.Color(19, 141, 117));
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        agregarEquipoPanel.setBackground(new java.awt.Color(19, 141, 117));
+        agregarEquipoPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel1MouseClicked(evt);
+                agregarEquipoPanelMouseClicked(evt);
             }
         });
 
@@ -132,27 +130,27 @@ public class home extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(245, 246, 247));
         jLabel1.setText("Agregar un nuevo equipo");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout agregarEquipoPanelLayout = new javax.swing.GroupLayout(agregarEquipoPanel);
+        agregarEquipoPanel.setLayout(agregarEquipoPanelLayout);
+        agregarEquipoPanelLayout.setHorizontalGroup(
+            agregarEquipoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agregarEquipoPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        agregarEquipoPanelLayout.setVerticalGroup(
+            agregarEquipoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(agregarEquipoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(19, 141, 117));
-        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        reporteSolesPanel.setBackground(new java.awt.Color(19, 141, 117));
+        reporteSolesPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
+                reporteSolesPanelMouseClicked(evt);
             }
         });
 
@@ -160,27 +158,27 @@ public class home extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(245, 246, 247));
         jLabel6.setText("Reporte S/.");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout reporteSolesPanelLayout = new javax.swing.GroupLayout(reporteSolesPanel);
+        reporteSolesPanel.setLayout(reporteSolesPanelLayout);
+        reporteSolesPanelLayout.setHorizontalGroup(
+            reporteSolesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reporteSolesPanelLayout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(39, 39, 39))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        reporteSolesPanelLayout.setVerticalGroup(
+            reporteSolesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reporteSolesPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel5.setBackground(new java.awt.Color(19, 141, 117));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        acercaDePanel.setBackground(new java.awt.Color(19, 141, 117));
+        acercaDePanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
+                acercaDePanelMouseClicked(evt);
             }
         });
 
@@ -188,27 +186,27 @@ public class home extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(245, 246, 247));
         jLabel7.setText("Acerca de");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout acercaDePanelLayout = new javax.swing.GroupLayout(acercaDePanel);
+        acercaDePanel.setLayout(acercaDePanelLayout);
+        acercaDePanelLayout.setHorizontalGroup(
+            acercaDePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, acercaDePanelLayout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(39, 39, 39))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        acercaDePanelLayout.setVerticalGroup(
+            acercaDePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(acercaDePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel15.setBackground(new java.awt.Color(19, 141, 117));
-        jPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
+        reporteKvPanel.setBackground(new java.awt.Color(19, 141, 117));
+        reporteKvPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel15MouseClicked(evt);
+                reporteKvPanelMouseClicked(evt);
             }
         });
 
@@ -216,27 +214,27 @@ public class home extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(245, 246, 247));
         jLabel17.setText("Report Kv-h");
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+        javax.swing.GroupLayout reporteKvPanelLayout = new javax.swing.GroupLayout(reporteKvPanel);
+        reporteKvPanel.setLayout(reporteKvPanelLayout);
+        reporteKvPanelLayout.setHorizontalGroup(
+            reporteKvPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reporteKvPanelLayout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(jLabel17)
                 .addGap(30, 30, 30))
         );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
+        reporteKvPanelLayout.setVerticalGroup(
+            reporteKvPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reporteKvPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel17)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel16.setBackground(new java.awt.Color(19, 141, 117));
-        jPanel16.addMouseListener(new java.awt.event.MouseAdapter() {
+        cerrarSesionPanel.setBackground(new java.awt.Color(19, 141, 117));
+        cerrarSesionPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel16MouseClicked(evt);
+                cerrarSesionPanelMouseClicked(evt);
             }
         });
 
@@ -244,18 +242,18 @@ public class home extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(245, 246, 247));
         jLabel18.setText("Cerrar Sesión");
 
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
+        javax.swing.GroupLayout cerrarSesionPanelLayout = new javax.swing.GroupLayout(cerrarSesionPanel);
+        cerrarSesionPanel.setLayout(cerrarSesionPanelLayout);
+        cerrarSesionPanelLayout.setHorizontalGroup(
+            cerrarSesionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cerrarSesionPanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel18)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
+        cerrarSesionPanelLayout.setVerticalGroup(
+            cerrarSesionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cerrarSesionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel18)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -265,10 +263,10 @@ public class home extends javax.swing.JFrame {
         lblBienvenido.setForeground(new java.awt.Color(245, 246, 247));
         lblBienvenido.setText("jLabel19");
 
-        jPanel18.setBackground(new java.awt.Color(245, 176, 65));
-        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+        filtrarPanel.setBackground(new java.awt.Color(245, 176, 65));
+        filtrarPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel18MouseClicked(evt);
+                filtrarPanelMouseClicked(evt);
             }
         });
 
@@ -276,18 +274,18 @@ public class home extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(245, 246, 247));
         jLabel20.setText("Filtrar");
 
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
+        javax.swing.GroupLayout filtrarPanelLayout = new javax.swing.GroupLayout(filtrarPanel);
+        filtrarPanel.setLayout(filtrarPanelLayout);
+        filtrarPanelLayout.setHorizontalGroup(
+            filtrarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filtrarPanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel20)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
+        filtrarPanelLayout.setVerticalGroup(
+            filtrarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filtrarPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel20)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -303,45 +301,134 @@ public class home extends javax.swing.JFrame {
             }
         });
 
+        jPanel19.setBackground(new java.awt.Color(231, 76, 60));
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
+
+        jLabel21.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(245, 246, 247));
+        jLabel21.setText("Eliminar filtro");
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel21)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+
+        controlTable.setForeground(new java.awt.Color(0, 0, 0));
+        controlTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Artefacto Eléctrico", "Cantidad", "Tiempo de Uso", "Kv-h", "Dias al Mes", "Consumo Kv-h", "Consumo Mensual S/"
+            }
+        ));
+        jScrollPane1.setViewportView(controlTable);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 869, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 77, Short.MAX_VALUE)
+        );
+
+        jLabel4.setText("Total:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(totalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81))
+        );
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(mainPanelLayout.createSequentialGroup()
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 869, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(11, 11, 11))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addComponent(lblBienvenido)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel19))))
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(jLabel2)
-                        .addGap(26, 26, 26)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel3)
+                        .addComponent(agregarEquipoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(reporteSolesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(reporteKvPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(acercaDePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cerrarSesionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                            .addGap(44, 44, 44)
+                            .addComponent(lblBienvenido)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel19))
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                            .addGap(26, 26, 26)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(11, 11, 11))))
                 .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(26, 26, 26)
+                .addComponent(periodoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(anioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(filtrarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(104, 104, 104))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,29 +440,28 @@ public class home extends javax.swing.JFrame {
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel19)))
+                .addGap(37, 37, 37)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(reporteKvPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(agregarEquipoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(reporteSolesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(acercaDePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cerrarSesionPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(65, 65, 65)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(anioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(79, 79, 79)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                            .addComponent(periodoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filtrarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -393,102 +479,138 @@ public class home extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+    private void agregarEquipoPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarEquipoPanelMouseClicked
         // TODO add your handling code here:
         nuevoEquipo nEquipo = new nuevoEquipo();
         nEquipo.setVisible(true);
-        
+
         dispose();
 
-    }//GEN-LAST:event_jPanel1MouseClicked
+    }//GEN-LAST:event_agregarEquipoPanelMouseClicked
 
-    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+    private void reporteSolesPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reporteSolesPanelMouseClicked
         // TODO add your handling code here:
-           // Fuente de Datos
+        // Fuente de Datos
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(8, "Soles", "Enero");
-       // dataset.setValue(7, "Hombres", "Enero");
-        dataset.setValue(9, "Soles", "Febrero");
-        //dataset.setValue(4, "Hombres", "Febrero");
-        dataset.setValue(4, "Soles", "Marzo");
-       // dataset.setValue(5, "Hombres", "Marzo");
-        dataset.setValue(8, "Soles", "Abril");
-       // dataset.setValue(9, "Hombres", "Abril");
-        dataset.setValue(7, "Soles", "Mayo");
-       // dataset.setValue(8, "Hombres", "Mayo");
-        // Creando el Grafico
-        JFreeChart chart = ChartFactory.createBarChart3D
-        ("Consumo Mensual S/ ","Mes", "", 
-        dataset, PlotOrientation.VERTICAL, true,true, false);
+        for (int i = 0; i < meses.length; i++) {            
+            dataset.setValue(cdao.total_por_mes(bienvenida.sesion.getUserSesion().getCodigo_perfil(), i+1)*bienvenida.sesion.getUserSesion().getCosto_kv(), "Soles", meses[i]);
+        }
+        // dataset.setValue(5, "Hombres", "Marzo");
+        JFreeChart chart = ChartFactory.createBarChart3D("Consumo Mensual S/ ", "Mes", "",
+                dataset, PlotOrientation.VERTICAL, true, true, false);
         chart.setBackgroundPaint(Color.white);
-        chart.getTitle().setPaint(Color.black); 
-        CategoryPlot p = chart.getCategoryPlot(); 
-        p.setRangeGridlinePaint(Color.blue); 
-        
+        chart.getTitle().setPaint(Color.black);
+        CategoryPlot p = chart.getCategoryPlot();
+        p.setRangeGridlinePaint(Color.blue);
+
         // Mostrar Grafico
-        ChartFrame frame = new ChartFrame("JFreeChart", chart);
+        ChartFrame frame = new ChartFrame("Reporte en soles", chart);
         frame.setBounds(380, 180, 0, 0);
         frame.pack();
         frame.setVisible(true);
-    }//GEN-LAST:event_jPanel4MouseClicked
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_reporteSolesPanelMouseClicked
 
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+    private void acercaDePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acercaDePanelMouseClicked
         // TODO add your handling code here:
         acercaDe acercaDee = new acercaDe();
         acercaDee.setVisible(true);
-        
-    }//GEN-LAST:event_jPanel5MouseClicked
 
-    private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
+    }//GEN-LAST:event_acercaDePanelMouseClicked
+
+    private void reporteKvPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reporteKvPanelMouseClicked
         // TODO add your handling code here:
-          // Fuente de Datos
+        // Fuente de Datos
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(8, "Kilovatio-hora", "Enero");
-       // dataset.setValue(7, "Hombres", "Enero");
-        dataset.setValue(9, "Kilovatio-hora", "Febrero");
-        //dataset.setValue(4, "Hombres", "Febrero");
-        dataset.setValue(4, "Kilovatio-hora", "Marzo");
-       // dataset.setValue(5, "Hombres", "Marzo");
-        dataset.setValue(8, "Kilovatio-hora", "Abril");
-       // dataset.setValue(9, "Hombres", "Abril");
-        dataset.setValue(7, "Kilovatio-hora", "Mayo");
-       // dataset.setValue(8, "Hombres", "Mayo");
+        for (int i = 0; i < meses.length; i++) {
+            dataset.setValue(cdao.total_por_mes(bienvenida.sesion.getUserSesion().getCodigo_perfil(), i+1), "Kilovatios-hora", meses[i]);
+        }
         // Creando el Grafico
-        JFreeChart chart = ChartFactory.createBarChart3D
-        ("Consumo Mensual Kilovatio-hora","Mes", "", 
-        dataset, PlotOrientation.VERTICAL, true,true, false);
+        JFreeChart chart = ChartFactory.createBarChart3D("Consumo Mensual Kilovatio-hora", "Mes", "",
+                dataset, PlotOrientation.VERTICAL, true, true, false);
         chart.setBackgroundPaint(Color.white);
-        chart.getTitle().setPaint(Color.black); 
-        CategoryPlot p = chart.getCategoryPlot(); 
-        p.setRangeGridlinePaint(Color.blue); 
-        
+        chart.getTitle().setPaint(Color.black);
+        CategoryPlot p = chart.getCategoryPlot();
+        p.setRangeGridlinePaint(Color.blue);
+
         // Mostrar Grafico
-        ChartFrame frame = new ChartFrame("JFreeChart", chart);
+        ChartFrame frame = new ChartFrame("Reporte Kv", chart);
         frame.setBounds(380, 180, 0, 0);
-         
+
         frame.pack();
         frame.setVisible(true);
-       
-        
-    }//GEN-LAST:event_jPanel15MouseClicked
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    private void jPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseClicked
+    }//GEN-LAST:event_reporteKvPanelMouseClicked
+
+    private void cerrarSesionPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionPanelMouseClicked
         // TODO add your handling code here:
         bienvenida.sesion.cerrarSesion();
         bienvenida bvnd = new bienvenida();
         bvnd.setVisible(true);
-        
-        dispose();      
-    }//GEN-LAST:event_jPanel16MouseClicked
 
-    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        dispose();
+    }//GEN-LAST:event_cerrarSesionPanelMouseClicked
+
+    private void filtrarPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filtrarPanelMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel18MouseClicked
+        model = new DefaultTableModel();
+        model.addColumn("Artefacto");
+        model.addColumn("Cantidad");
+        model.addColumn("Tiempo de uso");
+        model.addColumn("Kv/h ");
+        model.addColumn("Días del mes");
+        model.addColumn("Periodo");
+        controlTable.setModel(model);
+
+        int mes = periodoCombo.getSelectedIndex() + 1;
+        String anio = (String) anioCombo.getSelectedItem();
+
+        ArrayList<Control> controles;
+        controles = cdao.perfil_control_por_mes(bienvenida.sesion.getUserSesion().getCodigo_perfil(), anio, mes + "");
+        controles.forEach((c) -> {
+            String[] ctrl = new String[6];
+            ctrl[0] = c.getNombre_artefacto();
+            ctrl[1] = c.getCantidad() + "";
+            ctrl[2] = c.getTiempo_uso() + "";
+            ctrl[3] = c.getKv() + "";
+            ctrl[4] = c.getDia_uso() + "";
+            ctrl[5] = c.getPeriodo() + "";
+            model.addRow(ctrl);
+        });
+        
+        totalLabel.setText(cdao.total_por_mes(bienvenida.sesion.getUserSesion().getCodigo_perfil(), mes)+"");
+    }//GEN-LAST:event_filtrarPanelMouseClicked
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jLabel19MouseClicked
+
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+        // TODO add your handling code here:
+        model = new DefaultTableModel();
+        model.addColumn("Artefacto");
+        model.addColumn("Cantidad");
+        model.addColumn("Tiempo de uso");
+        model.addColumn("Kv/h ");
+        model.addColumn("Días del mes");
+        model.addColumn("Periodo");
+        controlTable.setModel(model);
+
+        ArrayList<Control> controles = cdao.perfil_control_all(bienvenida.sesion.getUserSesion().getCodigo_perfil());
+        controles.forEach((c) -> {
+            String[] ctrl = new String[6];
+            ctrl[0] = c.getNombre_artefacto();
+            ctrl[1] = c.getCantidad() + "";
+            ctrl[2] = c.getTiempo_uso() + "";
+            ctrl[3] = c.getKv() + "";
+            ctrl[4] = c.getDia_uso() + "";
+            ctrl[5] = c.getPeriodo() + "";
+            model.addRow(ctrl);
+        });
+        totalLabel.setText("");
+    }//GEN-LAST:event_jPanel19MouseClicked
 
     /**
      * @param args the command line arguments
@@ -526,48 +648,32 @@ public class home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JPanel acercaDePanel;
+    private javax.swing.JPanel agregarEquipoPanel;
+    private javax.swing.JComboBox<String> anioCombo;
+    private javax.swing.JPanel cerrarSesionPanel;
+    private javax.swing.JTable controlTable;
+    private javax.swing.JPanel filtrarPanel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblBienvenido;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JComboBox<String> periodoCombo;
+    private javax.swing.JPanel reporteKvPanel;
+    private javax.swing.JPanel reporteSolesPanel;
+    private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
 }

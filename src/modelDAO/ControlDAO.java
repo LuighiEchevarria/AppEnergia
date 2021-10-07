@@ -147,5 +147,50 @@ public class ControlDAO implements ControlInterface{
         return lista;
     }
     
+    public ArrayList<Control> perfil_control_por_mes(int codigo_perfil, String año, String mes) {
+         ArrayList<Control> lista = new ArrayList<>();
+        try {
+            String sql = "select * from control where codigo_perfil ="+ codigo_perfil +" and extract(month from periodo)="+ mes +" and extract(year from periodo)=" + año;
+            con= cn.conectar();
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                oControl=new Control();
+                oControl.setCodigo_control(rs.getInt("codigo_control"));
+                oControl.setNombre_artefacto(rs.getString("nombre_artefacto"));
+                oControl.setCantidad(rs.getInt("cantidad"));
+                oControl.setTiempo_uso(rs.getInt("tiempo_uso"));
+                oControl.setDia_uso(rs.getInt("dia_uso"));
+                oControl.setKv(rs.getInt("kv"));
+                oControl.setPeriodo(rs.getDate("periodo"));
+                oControl.setCodigo_perfil(rs.getInt("codigo_perfil"));
+                lista.add(oControl);
+            }            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ControlDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
+    public double total_por_mes(int codigo_perfil, int mes) {
+        double total = 0;
+         try {
+            String sql = "select SUM(cantidad*tiempo_uso*kv*dia_uso/1000) as total from control where extract(month from periodo)="+mes+" and codigo_perfil ="+codigo_perfil;
+            con=cn.conectar();
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                
+               total = rs.getDouble(1);
+                
+            }            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ControlDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR "+ex);
+        }
+        return total;
+    }
     
 }
