@@ -16,11 +16,13 @@ import java.util.logging.Logger;
  * @author Jesus Enrique
  */
 public class Conexion {
-    private static Connection conn;
-    public Connection conectar(){
+    private static Connection conn = null;
+    public static Connection conectar(){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn =DriverManager.getConnection("jdbc:mysql://localhost/bd_infoenergia", "root", "");
+            if(conn==null){
+                Class.forName("com.mysql.jdbc.Driver");
+                conn =DriverManager.getConnection("jdbc:mysql://localhost/bd_infoenergia", "root", "");
+            }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }

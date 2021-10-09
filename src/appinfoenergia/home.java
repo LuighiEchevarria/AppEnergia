@@ -523,7 +523,7 @@ public class home extends javax.swing.JFrame {
         // Fuente de Datos
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (int i = 0; i < meses.length; i++) {
-            dataset.setValue(cdao.total_por_mes(bienvenida.sesion.getUserSesion().getCodigo_perfil(), i+1), "Kilovatios-hora", meses[i]);
+            dataset.setValue(cdao.total_por_mes(bienvenida.sesion.getUserSesion().getCodigo_perfil(), i+1), "Kilovatios-hora    ", meses[i]);
         }
         // Creando el Grafico
         JFreeChart chart = ChartFactory.createBarChart3D("Consumo Mensual Kilovatio-hora", "Mes", "",

@@ -22,8 +22,7 @@ import model.Perfil;
  */
 public class PerfilDAO implements PerfilInterface{
     
-    Conexion cn = new Conexion();
-    Connection con;
+    Connection con = Conexion.conectar();
     PreparedStatement ps ;
     ResultSet rs;
     Perfil oPerfil;
@@ -40,7 +39,6 @@ public class PerfilDAO implements PerfilInterface{
                            + perfil.getCorreo_electronico() + " ', " 
                            + String.valueOf(perfil.getCosto_kv())  + ")";
             
-            con = cn.conectar();
             ps=con.prepareStatement(sql);
             ps.executeUpdate();
             
@@ -60,7 +58,6 @@ public class PerfilDAO implements PerfilInterface{
              
             String sql  = " update perfil set nombres = '" +  perfil.getNombres()  + "' , apellidos='" + perfil.getApellidos() + "', correo_electronico='" +  perfil.getCorreo_electronico() + "', kv= '" + String.valueOf(perfil.getCosto_kv()) + "' where codigo_perfil ="  + perfil.getCodigo_perfil();
             
-            con = cn.conectar();
             ps=con.prepareStatement(sql);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -77,7 +74,6 @@ public class PerfilDAO implements PerfilInterface{
         
         try {
             String sql = "delete from perfil where codigo_perfil = "+ codigo_perfil;
-            con= cn.conectar();
             ps=con.prepareStatement(sql);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -92,7 +88,6 @@ public class PerfilDAO implements PerfilInterface{
         
         try {
             String sql = "select * from perfil where codigo_perfil ="+ codigo_perfil;
-            con=cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -118,7 +113,6 @@ public class PerfilDAO implements PerfilInterface{
         ArrayList<Perfil> lista = new ArrayList<>();
         try {
             String sql = "select * from perfil";
-            con= cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){

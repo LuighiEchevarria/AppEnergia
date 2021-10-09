@@ -21,8 +21,7 @@ import model.Control;
  */
 public class ControlDAO implements ControlInterface{
     
-    Conexion cn = new Conexion();
-    Connection con;
+    Connection con = Conexion.conectar();
     PreparedStatement ps ;
     ResultSet rs;
     Control oControl;
@@ -42,7 +41,6 @@ public class ControlDAO implements ControlInterface{
                                                + control.getPeriodo() + "','"
                                                + String.valueOf(control.getCodigo_perfil()) + "')";
            
-            con = cn.conectar();
             ps=con.prepareStatement(sql);
             ps.executeUpdate();
             
@@ -68,7 +66,6 @@ public class ControlDAO implements ControlInterface{
                                     + " , codigo_perfil= '" + String.valueOf(c.getCodigo_perfil())+ "'"
                                     + "   where codigo_control= " + c.getCodigo_control();
 
-            con = cn.conectar();
             ps=con.prepareStatement(sql);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -84,7 +81,6 @@ public class ControlDAO implements ControlInterface{
         
           try {
             String sql = "delete from control where codigo_control = "+ codigo_control;
-            con= cn.conectar();
             ps=con.prepareStatement(sql);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -98,7 +94,6 @@ public class ControlDAO implements ControlInterface{
         
          try {
             String sql = "select * from control where codigo_control ="+ codigo_control;
-            con=cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -125,7 +120,6 @@ public class ControlDAO implements ControlInterface{
          ArrayList<Control> lista = new ArrayList<>();
         try {
             String sql = "select * from control where codigo_perfil ="+ codigo_perfil;
-            con= cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -147,11 +141,11 @@ public class ControlDAO implements ControlInterface{
         return lista;
     }
     
+    @Override
     public ArrayList<Control> perfil_control_por_mes(int codigo_perfil, String año, String mes) {
          ArrayList<Control> lista = new ArrayList<>();
         try {
             String sql = "select * from control where codigo_perfil ="+ codigo_perfil +" and extract(month from periodo)="+ mes +" and extract(year from periodo)=" + año;
-            con= cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -173,11 +167,11 @@ public class ControlDAO implements ControlInterface{
         return lista;
     }
     
+    @Override
     public double total_por_mes(int codigo_perfil, int mes) {
         double total = 0;
          try {
             String sql = "select SUM(cantidad*tiempo_uso*kv*dia_uso/1000) as total from control where extract(month from periodo)="+mes+" and codigo_perfil ="+codigo_perfil;
-            con=cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){

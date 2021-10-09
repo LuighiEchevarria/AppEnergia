@@ -21,8 +21,7 @@ import model.Artefacto;
  */
 public class ArtefactoDAO implements ArtefactoInterface{
 
-    Conexion cn = new Conexion();
-    Connection con;
+    Connection con = Conexion.conectar();
     PreparedStatement ps ;
     ResultSet rs;
     Artefacto oArtefacto;
@@ -34,7 +33,6 @@ public class ArtefactoDAO implements ArtefactoInterface{
         
           try {
             String sql = "select * from artefactos where codigo_artefacto ="+ codigo_artefacto;
-            con=cn.conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){
